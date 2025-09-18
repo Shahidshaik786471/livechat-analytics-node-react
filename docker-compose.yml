@@ -1,0 +1,18 @@
+version: '3.9'
+services:
+  mongo:
+    image: mongo:7
+    ports: ["27017:27017"]
+  server:
+    build: ./server
+    environment:
+      MONGO_URL: mongodb://mongo:27017
+    ports: ["4000:4000"]
+    depends_on: [mongo]
+  web:
+    image: node:20
+    working_dir: /app
+    volumes: ["./web:/app"]
+    command: sh -c "npm i && npm run dev -- --host 0.0.0.0"
+    ports: ["5174:5173"]
+    depends_on: [server]
