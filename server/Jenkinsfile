@@ -1,0 +1,8 @@
+pipeline {
+  agent any
+  stages {
+    stage('Install') { steps { sh 'npm ci || npm i' } }
+    stage('Test') { steps { sh 'npm test' } }
+    stage('Docker') { steps { sh 'docker build -t livechat-server:latest .' } }
+  }
+}
